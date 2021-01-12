@@ -1,0 +1,12 @@
+config USE_DSP
+    bool "Enable DSP?"
+    depends on USE_FPU
+    default n
+    help
+        Enable usage of DSP
+
+config USE_DMA
+    bool "Enable DMA?"
+    default y
+    help
+        Enable usage of DMA

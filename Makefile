@@ -1,10 +1,15 @@
 -include .config
 
-all:
-	g++ main.cpp -o Kconfig_test .config
-	./Kconfig_test
+.PHONY: configure
 
-menuconfig:
-	kconfig-mconf Kconfig
+Kconfig_test: configure
+	@g++ main.cpp config.h -o $@
+	@./$@
 
+configure: Kconfig
+	@python3 genconfig.py $<
 
+menuconfig: Kconfig
+	kconfig-mconf $^
+
+clean:

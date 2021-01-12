@@ -1,5 +1,48 @@
-config TEST
-    bool "test"
+mainmenu "Sample configurable project using Kconfig"
+
+config USE_FPU
+    bool "Enable FPU"
     default y
     help
-      script will get data only for currewnt user
+        Enable usage of FPU
+
+source "inc/Kconfig"
+
+config USE_DEBUG_UART
+    bool "Enable DEBUG UART"
+    default y
+    help
+        Enable UART for debugging
+
+    choice
+        prompt "Which UART use for debug"
+        depends on USE_DEBUG_UART
+        config OPTION_DBG_UART_1
+            bool "UART_1"
+        config OPTION_DBG_UART_2
+            bool "UART_2"
+        config OPTION_DBG_UART_3
+            bool "UART_3"
+    endchoice
+
+    config DEBUG_UART
+    depends on USE_DEBUG_UART
+        int
+        default 1 if OPTION_DBG_UART_1
+        default 2 if OPTION_DBG_UART_2
+        default 3 if OPTION_DBG_UART_3
+
+    choice
+        prompt "Debug UART speed"
+        depends on USE_DEBUG_UART
+        config OPTION_DBG_UART_SPEED_115200
+            bool "115200"
+        config OPTION_DBG_UART_SPEED_9600
+            bool "9600"
+    endchoice
+
+    config DEBUG_UART_SPEED
+        depends on USE_DEBUG_UART
+        int
+        default 115200 if OPTION_DBG_UART_SPEED_115200
+        default   9600 if OPTION_DBG_UART_SPEED_9600
