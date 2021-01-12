@@ -1,0 +1,5 @@
+config TEST
+    bool "test"
+    default y
+    help
+      script will get data only for currewnt user
